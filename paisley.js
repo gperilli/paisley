@@ -1,14 +1,51 @@
+import { paisleyElementFlower } from '/jsm/paisleyElementFlower.js'
+import { paisleyElementDropOne } from '/jsm/paisleyElementDropOne.js'
+import { paisleyElementDropTwo } from '/jsm/paisleyElementDropTwo.js'
+
+import { paisleyElementGroupOne } from '/jsm/paisleyElementGroupOne.js'
+
+class PeripherySquare {
+    constructor(width, left, top, n) {
+        this.width = width + "px"
+        this.height = width + "px"
+        this.leftOffset = left
+        this.topOffset = top
+        this.element = `<div id="patternOnePeripherySquare-${n}" class="outline" style="position: absolute;"></div>`
+        this.elementSelector = `#patternOnePeripherySquare-${n}`
+    }
+}
+
+const body = document.querySelector("body");
+
+let bodyWidth = body.clientWidth;
+let bodyHeight = body.clientHeight;
+let screenWidth = window.innerWidth;
+let screenHeight = window.innerHeight;
+let centralContainerSquareWidth, centralContainerXOffset, centralContainerYOffset;
+const patternOnePeripherySquareXOffset = []
+    const patternOnePeripherySquareYOffset = []
+    const peripherySquares = []
+
+    let patternOnePeripherySquareWidth;
+
+    const topSidePeripherySquares = []
+    const patternOneTopSidePeripherySquareXOffset = []
+
+    const bottomSidePeripherySquares = []
+    const patternOneBottomSidePeripherySquareXOffset = []
+
+    let patternOneBigSquareWidth;
+    let patternOneBigSquareXYOffset;
+
 function setLayout() {
     // Get screen size
-    const body = document.querySelector("body");
-    let bodyWidth = body.clientWidth;
-    let bodyHeight = body.clientHeight;
-    let screenWidth = window.innerWidth;
-	let screenHeight = window.innerHeight;
-    let centralContainerSquareWidth, centralContainerXOffset, centralContainerYOffset;
+
+    bodyWidth = body.clientWidth;
+    bodyHeight = body.clientHeight;
+    screenWidth = window.innerWidth;
+	screenHeight = window.innerHeight;
+
     //Set layout of UI Column, bottom/side creator link, and 2 content squares
-    console.log(`Screen height: ${screenHeight}, screen width: ${screenWidth}`);
-    console.log(`Body height: ${bodyHeight}, body width: ${bodyWidth}`);
 
     // determine portrait or landscape
     if (screenWidth > screenHeight) {
@@ -36,6 +73,7 @@ function setLayout() {
     centralContainerSquare.style.height = "".concat(centralContainerSquareWidth,"px");
     centralContainerSquare.style.left = "".concat((centralContainerXOffset * 2), "px");
     centralContainerSquare.style.top = "".concat(centralContainerYOffset, "px");
+    
 
     ////////////////////////////////////////
     // Pattern One
@@ -49,7 +87,8 @@ function setLayout() {
     if (document.querySelector("#patternOneBigSquare") == null) {
         const patternOneBigSquareElement = `<div id="patternOneBigSquare" class="outline" style="position: absolute;"></div>`;
         centralContainerSquare.insertAdjacentHTML("beforeend", patternOneBigSquareElement);
-        const patternOneBigSquare = document.querySelector("#centralContainerSquare")
+        const patternOneBigSquare = document.querySelector("#patternOneBigSquare")
+        patternOneBigSquare.insertAdjacentHTML("beforeend", paisleyElementGroupOne)
     }
 
     // update position and size 
@@ -63,29 +102,18 @@ function setLayout() {
 
 
     // PeripherySquare: width, left, top, n
-    class PeripherySquare {
-        constructor(width, left, top, n) {
-            this.width = width + "px"
-            this.height = width + "px"
-            this.leftOffset = left
-            this.topOffset = top
-            this.element = `<div id="patternOnePeripherySquare-${n}" class="outline" style="position: absolute;"></div>`
-            this.elementSelector = `#patternOnePeripherySquare-${n}`
-        }
-    }
+    
 
-    //
-    const patternOnePeripherySquareXOffset = []
-    const patternOnePeripherySquareYOffset = []
-    peripherySquares = []
+
     // Generate left side containers
     for (let i = 0; i < 3; i++) {
-        patternOnePeripherySquareXOffset[i] = Math.random() * patternOnePeripherySquareWidth
-        patternOnePeripherySquareYOffset[i] = Math.random() * patternOnePeripherySquareWidth
+        patternOnePeripherySquareXOffset[i] = Math.random() 
+        patternOnePeripherySquareYOffset[i] = Math.random()
 
         // PeripherySquare: width, left, top, n
-        peripherySquares[i] = new PeripherySquare(patternOnePeripherySquareWidth, patternOnePeripherySquareXOffset[i], patternOnePeripherySquareYOffset[i], i)
+        peripherySquares[i] = new PeripherySquare(patternOnePeripherySquareWidth, (patternOnePeripherySquareXOffset[i] * patternOnePeripherySquareWidth), (patternOnePeripherySquareYOffset[i] * patternOnePeripherySquareWidth), i)
         centralContainerSquare.insertAdjacentHTML("beforeend", peripherySquares[i].element);
+        
         // set
         document.querySelector(peripherySquares[i].elementSelector).style.width = peripherySquares[i].width
         document.querySelector(peripherySquares[i].elementSelector).style.height = peripherySquares[i].width
@@ -94,12 +122,15 @@ function setLayout() {
         document.querySelector(peripherySquares[i].elementSelector).style.top = ((patternOnePeripherySquareWidth * (i * 2)) + peripherySquares[i].topOffset)  + "px"
     }
 
+    document.querySelector(peripherySquares[0].elementSelector).insertAdjacentHTML("beforeend", paisleyElementDropOne)
+    document.querySelector(peripherySquares[1].elementSelector).insertAdjacentHTML("beforeend", paisleyElementDropTwo)
+    document.querySelector(peripherySquares[2].elementSelector).insertAdjacentHTML("beforeend", paisleyElementFlower)
+
     // Generate top side containers
-    topSidePeripherySquares = []
-    patternOneTopSidePeripherySquareXOffset = []
     for (let i = 0; i < 2; i++) {
-        patternOneTopSidePeripherySquareXOffset[i] = Math.random() * patternOnePeripherySquareWidth
-        topSidePeripherySquares[i] = new PeripherySquare(patternOnePeripherySquareWidth, patternOneTopSidePeripherySquareXOffset[i], i, (3 + i))
+        patternOneTopSidePeripherySquareXOffset[i] = Math.random()
+        // PeripherySquare: width, left, top, n
+        topSidePeripherySquares[i] = new PeripherySquare(patternOnePeripherySquareWidth, (patternOneTopSidePeripherySquareXOffset[i] * patternOnePeripherySquareWidth), i, (3 + i))
         centralContainerSquare.insertAdjacentHTML("beforeend", topSidePeripherySquares[i].element);
         // set
         document.querySelector(topSidePeripherySquares[i].elementSelector).style.width = topSidePeripherySquares[i].width
@@ -109,11 +140,10 @@ function setLayout() {
     }
     
     // Generate bottom side containers
-    bottomSidePeripherySquares = []
-    patternOneBottomSidePeripherySquareXOffset = []
     for (let i = 0; i < 2; i++) {
-        patternOneBottomSidePeripherySquareXOffset[i] = Math.random() * patternOnePeripherySquareWidth
-        bottomSidePeripherySquares[i] = new PeripherySquare(patternOnePeripherySquareWidth, patternOneBottomSidePeripherySquareXOffset[i], i, (5 + i))
+        patternOneBottomSidePeripherySquareXOffset[i] = Math.random() 
+        // PeripherySquare: width, left, top, n
+        bottomSidePeripherySquares[i] = new PeripherySquare(patternOnePeripherySquareWidth, (patternOneBottomSidePeripherySquareXOffset[i] * patternOnePeripherySquareWidth), i, (5 + i))
         centralContainerSquare.insertAdjacentHTML("beforeend", bottomSidePeripherySquares[i].element);
         // set
         document.querySelector(bottomSidePeripherySquares[i].elementSelector).style.width = bottomSidePeripherySquares[i].width
@@ -128,7 +158,95 @@ function setLayout() {
 }
 
 function updateLayout() {
+    //console.log("bang")
+    bodyWidth = body.clientWidth;
+    bodyHeight = body.clientHeight;
+    screenWidth = window.innerWidth;
+	screenHeight = window.innerHeight;
 
+    //Set layout of UI Column, bottom/side creator link, and 2 content squares
+
+    // determine portrait or landscape
+    if (screenWidth > screenHeight) {
+        centralContainerSquareWidth = screenHeight;
+        centralContainerXOffset = ((screenWidth - screenHeight) / 2);
+        centralContainerYOffset = 0;
+        console.log(`Landscape Screen. Central container square width: ${centralContainerSquareWidth}`);
+    } else {
+        centralContainerSquareWidth = screenWidth;
+        centralContainerXOffset = 0;
+        centralContainerYOffset = ((screenHeight - screenWidth) / 2);
+        console.log(`Portait Screen. Central container square width: ${centralContainerSquareWidth}`);
+    }
+
+
+
+    // update position and size of main container square
+    centralContainerSquare.style.width = "".concat(centralContainerSquareWidth,"px");
+    centralContainerSquare.style.height = "".concat(centralContainerSquareWidth,"px");
+    centralContainerSquare.style.left = "".concat((centralContainerXOffset * 2), "px");
+    centralContainerSquare.style.top = "".concat(centralContainerYOffset, "px");
+    
+
+    ////////////////////////////////////////
+    // Pattern One
+    // Pattern 1 - central square
+
+    
+
+    patternOneBigSquareWidth = centralContainerSquareWidth / 1.5
+    patternOneBigSquareXYOffset = centralContainerSquareWidth / 6
+
+
+    // update position and size 
+    patternOneBigSquare.style.width = "".concat(patternOneBigSquareWidth,"px");
+    patternOneBigSquare.style.height = "".concat(patternOneBigSquareWidth,"px");
+    patternOneBigSquare.style.left = "".concat((patternOneBigSquareXYOffset * 2), "px");
+    patternOneBigSquare.style.top = "".concat(patternOneBigSquareXYOffset, "px");
+
+    // Pattern 1 - periphery squares
+    patternOnePeripherySquareWidth = centralContainerSquareWidth / 6
+
+
+    for (let i = 0; i < 3; i++) {
+        
+        centralContainerSquare.insertAdjacentHTML("beforeend", peripherySquares[i].element);
+        
+        // set + update
+        //console.log(peripherySquares[i].width);
+        peripherySquares[i].width = patternOnePeripherySquareWidth + "px"
+        peripherySquares[i].height = patternOnePeripherySquareWidth  + "px"
+        peripherySquares[i].leftOffset = patternOnePeripherySquareXOffset[i] * patternOnePeripherySquareWidth
+        peripherySquares[i].topOffset = patternOnePeripherySquareXOffset[i] * patternOnePeripherySquareWidth
+        console.log(patternOnePeripherySquareWidth);
+        document.querySelector(peripherySquares[i].elementSelector).style.width = peripherySquares[i].width
+        document.querySelector(peripherySquares[i].elementSelector).style.height = peripherySquares[i].width
+        document.querySelector(peripherySquares[i].elementSelector).style.left = peripherySquares[i].leftOffset  + "px"
+        document.querySelector(peripherySquares[i].elementSelector).style.top = ((patternOnePeripherySquareWidth * (i * 2)) + peripherySquares[i].topOffset)  + "px"
+    }
+
+    // Top side periphery squares
+    for (let i = 0; i < 2; i++) {
+        topSidePeripherySquares[i].width = patternOnePeripherySquareWidth + "px"
+        topSidePeripherySquares[i].height = patternOnePeripherySquareWidth + "px"
+        topSidePeripherySquares[i].leftOffset = (patternOneTopSidePeripherySquareXOffset[i] * patternOnePeripherySquareWidth)
+        // set + update
+        document.querySelector(topSidePeripherySquares[i].elementSelector).style.width = topSidePeripherySquares[i].width
+        document.querySelector(topSidePeripherySquares[i].elementSelector).style.height = topSidePeripherySquares[i].width
+        document.querySelector(topSidePeripherySquares[i].elementSelector).style.left = topSidePeripherySquares[i].leftOffset + (patternOnePeripherySquareWidth * ((i + 1) * 2))  + "px"
+    }
+    
+    // Bottom side periphery squares
+    for (let i = 0; i < 2; i++) {
+        bottomSidePeripherySquares[i].width = patternOnePeripherySquareWidth + "px"
+        bottomSidePeripherySquares[i].height = patternOnePeripherySquareWidth + "px"
+        bottomSidePeripherySquares[i].leftOffset = (patternOneBottomSidePeripherySquareXOffset[i] * patternOnePeripherySquareWidth)
+        // set + update
+        document.querySelector(bottomSidePeripherySquares[i].elementSelector).style.width = patternOnePeripherySquareWidth + "px"
+        document.querySelector(bottomSidePeripherySquares[i].elementSelector).style.height = patternOnePeripherySquareWidth + "px"
+        document.querySelector(bottomSidePeripherySquares[i].elementSelector).style.left = bottomSidePeripherySquares[i].leftOffset + (patternOnePeripherySquareWidth * ((i + 1) * 2))  + "px"
+        document.querySelector(bottomSidePeripherySquares[i].elementSelector).style.top = bottomSidePeripherySquares[i].topOffset + (patternOnePeripherySquareWidth * 5)  + "px"
+    }
 }
 
 window.addEventListener( 'load', setLayout );
