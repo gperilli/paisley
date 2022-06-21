@@ -1,5 +1,5 @@
-export  { paisleyElementDropTwo }
-const paisleyElementDropTwo = `
+export  { paisleyElementSDropTwo }
+const paisleyElementSDropTwo = `
 <svg width="100%" height="100%" style="position: relative;"  viewBox="0 0 500 500">
 
 <path
