@@ -1,17 +1,23 @@
-export { SSizePeripherySquare }
+import { PaisleyBlocksSSizeBlock1Vector } from '/jsm/paisleyBlocks/paisleyBlocksSSizeBlock1.js'
+export { SSizePaisleyBlock }
 export { topSidePeripherySquarePositioning }
 export { bottomSidePeripherySquarePositioning }
 
-class SSizePeripherySquare {
-    constructor(width, left, top, position, rotation, n) {
-        this.width = width
-        this.height = width
-        this.position = position
-        this.leftOffset = left
-        this.topOffset = top
-        this.rotation = rotation
-        this.element = `<div id="SSizePeripherySquare-${n}" class="outline" style="position: absolute;"></div>`
-        this.elementSelector = `#SSizePeripherySquare-${n}`
+class SSizePaisleyBlock {
+    static count = 0;
+    constructor(sSizePaisleyBlockParams) {
+        this.instanceN = ++SSizePaisleyBlock.count
+        this.width = sSizePaisleyBlockParams.width
+        this.height = sSizePaisleyBlockParams.width
+        this.position = sSizePaisleyBlockParams.position
+        this.leftOffset = sSizePaisleyBlockParams.leftOffset
+        this.topOffset = sSizePaisleyBlockParams.topOffset
+        this.rotation = sSizePaisleyBlockParams.rotation
+        this.element = `<div id="SSizePaisleyBlock-${this.instanceN}" class="outline" style="position: absolute;"></div>`
+        this.elementSelector = `#SSizePaisleyBlock-${this.instanceN}`
+        this.paisleyVectorClassNames = `paisley-ssize-block-components-pblock-${this.instanceN}`
+        this.paisleyVectorInstance = new PaisleyBlocksSSizeBlock1Vector(this.paisleyVectorClassNames)
+        this.paisleyVector = this.paisleyVectorInstance.vectorCode
     }
 }
 

@@ -1,16 +1,22 @@
-export { MSizePeripherySquare }
+import { PaisleyBlocksMSizeBlock1Vector } from '/jsm/paisleyBlocks/paisleyBlocksMSizeBlock1.js'
+export { MSizePaisleyBlock }
 export { topLeftPeripherySquarePositioning }
 export { bottomLeftPeripherySquarePositioning }
 
-class MSizePeripherySquare {
-    constructor(width, left, top, rotation, n) {
-        this.width = width
-        this.height = width
-        this.leftOffset = left
-        this.topOffset = top
-        this.rotation = rotation
-        this.element = `<div id="MSizePeripherySquare-${n}" class="outline" style="position: relative;"></div>`
-        this.elementSelector = `#MSizePeripherySquare-${n}`
+class MSizePaisleyBlock {
+    static count = 0;
+    constructor(mSizePaisleyBlockParams) {
+        this.instanceN = ++MSizePaisleyBlock.count
+        this.width = mSizePaisleyBlockParams.width
+        this.height = mSizePaisleyBlockParams.width
+        this.leftOffset = mSizePaisleyBlockParams.leftOffset
+        this.topOffset = mSizePaisleyBlockParams.topOffset
+        this.rotation = mSizePaisleyBlockParams.rotation
+        this.element = `<div id="MSizePaisleyBlock-${this.instanceN}" class="outline" style="position: relative;"></div>`
+        this.elementSelector = `#MSizePaisleyBlock-${this.instanceN}`
+        this.paisleyVectorClassNames = `paisley-msize-block-components-pblock-${this.instanceN}`
+        this.paisleyVectorInstance = new PaisleyBlocksMSizeBlock1Vector(this.paisleyVectorClassNames)
+        this.paisleyVector = this.paisleyVectorInstance.vectorCode
     }
 }
 

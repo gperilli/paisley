@@ -1,22 +1,17 @@
-import { paisleyElementFlower } from '/jsm/paisleyBlocks/paisleyElementFlower.js'
-import { paisleyElementSDropTwo } from '/jsm/paisleyBlocks/paisleyElementSDropTwo.js'
-import { paisleyElementDropOne } from '/jsm/paisleyBlocks/paisleyElementMSizeDrop01.js'
-import { paisleyElementDropTwo } from '/jsm/paisleyBlocks/paisleyElementMSizeDrop02.js'
-import { paisleyElementGroupOne } from '/jsm/paisleyBlocks/paisleyElementGroupOne.js'
 
 import { screenSize } from '/jsm/pD2ScreenSize.js'
 import { portraitLandscapeParams } from '/jsm/pD2PortraitLandscapeParams.js'
 
-import { LSizeMainSquare } from '/jsm/pD2LSizeMainSquare.js'
-import { mainSquarePositioning } from '/jsm/pD2LSizeMainSquare.js'
+import { LSizePaisleyBlock } from '/jsm/pD2LSizePaisleyBlock.js'
+import { mainSquarePositioning } from '/jsm/pD2LSizePaisleyBlock.js'
 
-import { MSizePeripherySquare } from '/jsm/pD2MSizePeripherySquare.js'
-import { topLeftPeripherySquarePositioning } from '/jsm/pD2MSizePeripherySquare.js'
-import { bottomLeftPeripherySquarePositioning } from '/jsm/pD2MSizePeripherySquare.js'
+import { MSizePaisleyBlock } from '/jsm/pD2MSizePaisleyBlock.js'
+import { topLeftPeripherySquarePositioning } from '/jsm/pD2MSizePaisleyBlock.js'
+import { bottomLeftPeripherySquarePositioning } from '/jsm/pD2MSizePaisleyBlock.js'
 
-import { SSizePeripherySquare } from '/jsm/pD2SSizePeripherySquare.js'
-import { topSidePeripherySquarePositioning } from '/jsm/pD2SSizePeripherySquare.js'
-import { bottomSidePeripherySquarePositioning } from '/jsm/pD2SSizePeripherySquare.js'
+import { SSizePaisleyBlock } from '/jsm/pD2SSizePaisleyBlock.js'
+import { topSidePeripherySquarePositioning } from '/jsm/pD2SSizePaisleyBlock.js'
+import { bottomSidePeripherySquarePositioning } from '/jsm/pD2SSizePaisleyBlock.js'
 
 export { pDTwoSetLayout }
 export { pDTwoUpdateLayout }
@@ -24,6 +19,10 @@ export { body }
 
 const body = document.querySelector("body");
 let centralContainerParams
+
+let sSizePaisleyBlockParams;
+let mSizePaisleyBlockParams;
+let lSizePaisleyBlockParams;
 
 // Main Square
 let mainSquare;
@@ -107,60 +106,95 @@ function pDTwoSetLayout() {
     patternTwoSSizePeripherySquareWidth = centralContainerSquareWidth / 6
 
 
-    let mainSquareRotation = randomIntToFour()
+    lSizePaisleyBlockParams = {
+        width: mainSquareWidth,
+        leftOffset: (mainSquareXYOffset * 2),
+        topOffset: mainSquareXYOffset,
+        rotation: randomIntToFour(),
+    }
+
     // MainSquare: width, left, top, rotation, n
-    mainSquare = new LSizeMainSquare(mainSquareWidth, (mainSquareXYOffset * 2), mainSquareXYOffset, mainSquareRotation, 0)
+    mainSquare = new LSizePaisleyBlock(lSizePaisleyBlockParams)
     centralContainerSquare.insertAdjacentHTML("beforeend", mainSquare.element);
     // Set position and size
     mainSquarePositioning(mainSquare);
     document.querySelector(mainSquare.elementSelector).style.transform = `rotate(${mainSquare.rotation * 90}deg)`;
-    document.querySelector(mainSquare.elementSelector).insertAdjacentHTML("beforeend", paisleyElementGroupOne)
+    document.querySelector(mainSquare.elementSelector).insertAdjacentHTML("beforeend", mainSquare.paisleyVector)
 
-
-    
 
     // Top left square
-    // PeripherySquare: width, left, top, rotation, n
-    let topLeftPeripherySquareRotation = randomIntToFour()
-    topLeftPeripherySquare = new MSizePeripherySquare(patternTwoMSizePeripherySquareWidth, 0, 0, topLeftPeripherySquareRotation, 0)
+    mSizePaisleyBlockParams = {
+        width: patternTwoMSizePeripherySquareWidth,
+        leftOffset: 0,
+        topOffset: 0,
+        rotation: randomIntToFour(),
+    }
+
+    topLeftPeripherySquare = new MSizePaisleyBlock(mSizePaisleyBlockParams)
     centralContainerSquare.insertAdjacentHTML("beforeend", topLeftPeripherySquare.element);
     // Set size and position
     topLeftPeripherySquarePositioning(topLeftPeripherySquare);
     document.querySelector(topLeftPeripherySquare.elementSelector).style.transform = `rotate(${topLeftPeripherySquare.rotation * 90}deg)`;
-    document.querySelector(topLeftPeripherySquare.elementSelector).insertAdjacentHTML("beforeend", paisleyElementDropOne)
+    document.querySelector(topLeftPeripherySquare.elementSelector).insertAdjacentHTML("beforeend", topLeftPeripherySquare.paisleyVector)
 
     // Bottom left square
-    // PeripherySquare: width, left, top, n
-    let bottomLeftPeripherySquareRotation = randomIntToFour()
-    bottomLeftPeripherySquare = new MSizePeripherySquare(patternTwoMSizePeripherySquareWidth, 0, patternTwoMSizePeripherySquareWidth, bottomLeftPeripherySquareRotation, 1)
+    mSizePaisleyBlockParams = {
+        width: patternTwoMSizePeripherySquareWidth,
+        leftOffset: 0,
+        topOffset: patternTwoMSizePeripherySquareWidth,
+        rotation: randomIntToFour(),
+    }
+
+    bottomLeftPeripherySquare = new MSizePaisleyBlock(mSizePaisleyBlockParams)
     centralContainerSquare.insertAdjacentHTML("beforeend", bottomLeftPeripherySquare.element);
+    
     // Set size and position
     bottomLeftPeripherySquarePositioning(bottomLeftPeripherySquare);
     document.querySelector(bottomLeftPeripherySquare.elementSelector).style.transform = `rotate(${bottomLeftPeripherySquare.rotation * 90}deg)`;
-    document.querySelector(bottomLeftPeripherySquare.elementSelector).insertAdjacentHTML("beforeend", paisleyElementDropTwo)
+    document.querySelector(bottomLeftPeripherySquare.elementSelector).insertAdjacentHTML("beforeend", bottomLeftPeripherySquare.paisleyVector)
 
 
     // Top Side S Size square 1
     topSidePeripherySquarePosition = randomIntToFour()
     let topSidePeripherySquareRotation = randomIntToFour()
     // PeripherySquare: width, left, top, position, rotation n
-    topSidePeripherySquare = new SSizePeripherySquare(patternTwoSSizePeripherySquareWidth, patternTwoMSizePeripherySquareWidth + (patternTwoSSizePeripherySquareWidth * topSidePeripherySquarePosition), 0, topSidePeripherySquarePosition, topSidePeripherySquareRotation, 0)
+    //let paisleyBlocksSSizeBlock1 =  new PaisleyBlocksSSizeBlock1("classname")
+    sSizePaisleyBlockParams = {
+        width: patternTwoSSizePeripherySquareWidth,
+        leftOffset: patternTwoMSizePeripherySquareWidth + (patternTwoSSizePeripherySquareWidth * topSidePeripherySquarePosition),
+        topOffset: 0,
+        position: topSidePeripherySquarePosition,
+        rotation: topSidePeripherySquareRotation,
+        n: 0
+    }
+
+    topSidePeripherySquare = new SSizePaisleyBlock(sSizePaisleyBlockParams)
     centralContainerSquare.insertAdjacentHTML("beforeend", topSidePeripherySquare.element);
     // Set size and position
     topSidePeripherySquarePositioning(topSidePeripherySquare);
     document.querySelector(topSidePeripherySquare.elementSelector).style.transform = `rotate(${topSidePeripherySquare.rotation * 90}deg)`;
-    document.querySelector(topSidePeripherySquare.elementSelector).insertAdjacentHTML("beforeend", paisleyElementSDropTwo)
+    document.querySelector(topSidePeripherySquare.elementSelector).insertAdjacentHTML("beforeend", topSidePeripherySquare.paisleyVector)
 
     // Bottom Side S Size square 2
     positionSwitcher(topSidePeripherySquarePosition);
-     
+    
+    //let paisleyBlocksSSizeBlock2 =  new PaisleyBlocksSSizeBlock1("classname")
+    sSizePaisleyBlockParams = {
+        width: patternTwoSSizePeripherySquareWidth,
+        leftOffset: patternTwoMSizePeripherySquareWidth + (patternTwoSSizePeripherySquareWidth * bottomSidePeripherySquarePosition),
+        topOffset: (patternTwoSSizePeripherySquareWidth * 5), bottomSidePeripherySquarePosition,
+        position: bottomSidePeripherySquarePosition, 
+        rotation: 0,
+        //n: 1
+    }
     // PeripherySquare: width, left, top, position, rotation, n
-    bottomSidePeripherySquare = new SSizePeripherySquare(patternTwoSSizePeripherySquareWidth, patternTwoMSizePeripherySquareWidth + (patternTwoSSizePeripherySquareWidth * bottomSidePeripherySquarePosition), (patternTwoSSizePeripherySquareWidth * 5), bottomSidePeripherySquarePosition, 0, 1)
+    bottomSidePeripherySquare = new SSizePaisleyBlock(sSizePaisleyBlockParams)
+    console.log(bottomSidePeripherySquare.instanceN)
     centralContainerSquare.insertAdjacentHTML("beforeend", bottomSidePeripherySquare.element);
     // Set size and position
     bottomSidePeripherySquarePositioning(bottomSidePeripherySquare);
     document.querySelector(bottomSidePeripherySquare.elementSelector).style.transform = `rotate(${topSidePeripherySquare.rotation * 90}deg)`;
-    document.querySelector(bottomSidePeripherySquare.elementSelector).insertAdjacentHTML("beforeend", paisleyElementFlower)
+    document.querySelector(bottomSidePeripherySquare.elementSelector).insertAdjacentHTML("beforeend", bottomSidePeripherySquare.paisleyVector)
 
     
 }
@@ -179,7 +213,6 @@ function pDTwoUpdateLayout() {
     centralContainerSquareWidth = centralContainerParams[0]
     centralContainerSquarePositioning(centralContainerSquare, centralContainerSquareWidth, centralContainerXOffset, centralContainerYOffset);
     
-    
     // Main square sizing
     mainSquareWidth = centralContainerSquareWidth / 1.5
     mainSquareXYOffset = centralContainerSquareWidth / 6
@@ -196,7 +229,6 @@ function pDTwoUpdateLayout() {
     mainSquarePositioning(mainSquare);
 
     
-
     // Top Left M Size Square
     topLeftPeripherySquare.width = patternTwoMSizePeripherySquareWidth
     topLeftPeripherySquare.height = patternTwoMSizePeripherySquareWidth
@@ -213,7 +245,6 @@ function pDTwoUpdateLayout() {
     // update position and size 
     bottomLeftPeripherySquarePositioning(bottomLeftPeripherySquare);
     
-
     // Top side S Size Square
     topSidePeripherySquare.width = patternTwoSSizePeripherySquareWidth
     topSidePeripherySquare.height = patternTwoSSizePeripherySquareWidth
