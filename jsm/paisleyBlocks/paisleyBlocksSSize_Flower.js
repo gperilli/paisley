@@ -1,7 +1,7 @@
-export  { PaisleyBlocksSSizeBlock1Vector }
+export  { PaisleyBlocksSSize_Flower }
 
 // flower
-class PaisleyBlocksSSizeBlock1Vector {
+class PaisleyBlocksSSize_Flower {
     constructor(className) {
         this.className = className
         this.vectorCode = `

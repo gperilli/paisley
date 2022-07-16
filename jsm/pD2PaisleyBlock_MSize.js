@@ -1,4 +1,5 @@
 import { PaisleyBlocksMSizeBlock1Vector } from '/jsm/paisleyBlocks/paisleyBlocksMSizeBlock1.js'
+import { PaisleyBlocksMSize_Drop1 } from '/jsm/paisleyBlocks/paisleyBlocksMSize_Drop1.js'
 export { MSizePaisleyBlock }
 export { topLeftPeripherySquarePositioning }
 export { bottomLeftPeripherySquarePositioning }
@@ -15,7 +16,7 @@ class MSizePaisleyBlock {
         this.element = `<div id="MSizePaisleyBlock-${this.instanceN}" class="outline" style="position: relative;"></div>`
         this.elementSelector = `#MSizePaisleyBlock-${this.instanceN}`
         this.paisleyVectorClassNames = `paisley-msize-block-components-pblock-${this.instanceN}`
-        this.paisleyVectorInstance = new PaisleyBlocksMSizeBlock1Vector(this.paisleyVectorClassNames)
+        this.paisleyVectorInstance = new PaisleyBlocksMSize_Drop1(this.paisleyVectorClassNames)
         this.paisleyVector = this.paisleyVectorInstance.vectorCode
     }
 }
