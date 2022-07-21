@@ -21,7 +21,7 @@ class SSizePaisleyBlock {
         //this.element.transform = `rotate(${this.rotation * 90}deg)`;
         this.elementSelector = `#SSizePaisleyBlock-${this.instanceN}`
         this.paisleyVectorClassNames = `paisley-ssize-block-components-pblock-${this.instanceN}`
-        this.paisleyVectorInstance = new SSizePaisleyBlock.paisleyVectors[Math.floor(Math.random() * 2)](this.paisleyVectorClassNames)
+        this.paisleyVectorInstance = SSizePaisleyBlock.paisleyVectors[Math.floor(Math.random() * 2)](this.paisleyVectorClassNames)
         this.paisleyVector = this.paisleyVectorInstance.vectorCode
         this.init()
     }

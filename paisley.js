@@ -6,11 +6,11 @@ import { paisleyElementGroupOne } from '/jsm/paisleyBlocks/paisleyElementGroupOn
 import { pDOneSetLayout } from '/jsm/paisleyDesignOne.js'
 import { pDOneUpdateLayout } from '/jsm/paisleyDesignOne.js'
 
-import { pDTwoSetLayout } from '/jsm/paisleyDesignTwo.js'
-import { pDTwoUpdateLayout } from '/jsm/paisleyDesignTwo.js'
+import { pDThreeSetLayout } from '/jsm/paisleyDesignThree.js'
+import { pDThreeUpdateLayout } from '/jsm/paisleyDesignThree.js'
 
 
 
 
-window.addEventListener( 'load', pDTwoSetLayout );
-window.addEventListener( 'resize', pDTwoUpdateLayout );
+window.addEventListener( 'load', pDThreeSetLayout );
+window.addEventListener( 'resize', pDThreeUpdateLayout );
