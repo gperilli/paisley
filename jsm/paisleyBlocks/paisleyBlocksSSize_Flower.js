@@ -2,11 +2,13 @@ export  { PaisleyBlocksSSize_Flower }
 
 // flower
 class PaisleyBlocksSSize_Flower {
-    constructor(className) {
+    constructor(className, fadein) {
         this.className = className
+        this.initialOpacity = 0
+        this.init(fadein)
         this.vectorCode = `
             <svg width="100%" height="100%" style="position: relative;"  viewBox="0 0 500 500">
-                <path class="${this.className}"
+                <path class="${this.className}" style="opacity: ${this.initialOpacity}"
                     d="m 242.6028,275.59489 c -13.18375,-4.76105 -25.09385,-15.04794 -30.31495,-26.18339 -6.19617,-13.21506 -2.15865,-28.14195 9.8068,-36.2562 14.68173,-9.95628 32.64763,-7.30998 48.08829,7.08319 10.94314,10.20076 16.24005,20.89123 16.08775,32.46909 -0.0952,7.23546 -2.43304,12.56051 -7.53047,17.15253 -6.15376,5.54362 -11.04472,7.32022 -21.15132,7.68302 -7.46208,0.26787 -9.62988,-0.014 -14.9861,-1.94824 z m 26.52098,-6.5141 c 3.81234,-1.8652 5.89945,-3.65391 7.91456,-6.78298 2.56583,-3.98424 2.71458,-4.70874 2.38085,-11.59631 -0.30092,-6.21043 -0.84268,-8.25965 -3.50315,-13.2508 -6.17106,-11.57715 -18.86025,-21.542 -30.43544,-23.90102 -7.84457,-1.59872 -14.18355,-0.0206 -21.61504,5.38129 -5.76666,4.19171 -7.8634,8.97071 -7.45801,16.99864 0.42039,8.32489 3.83662,15.35327 10.998,22.6267 12.70835,12.90718 28.63557,16.92523 41.71823,10.52448 z" 
                 />
                 <path class="${this.className}"
@@ -41,5 +43,9 @@ class PaisleyBlocksSSize_Flower {
                 />
             </svg>
         `
+    }
+
+    init(fadein) {
+        fadein == true ? this.initialOpacity = 0 : this.initialOpacity = 1
     }
 }

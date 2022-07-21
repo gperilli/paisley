@@ -57,22 +57,6 @@ function randomIntToFour() {
     return Math.floor(Math.random() * 4)
 }
 
-function positionSwitcher(topSidePeripherySquarePosition) {
-    switch(topSidePeripherySquarePosition) {
-        case 0:
-            bottomSidePeripherySquarePosition = 2
-        break;
-        case 1:
-            bottomSidePeripherySquarePosition = 3
-        break;
-        case 2:
-            bottomSidePeripherySquarePosition = 0
-        break;
-        case 3:
-            bottomSidePeripherySquarePosition = 1
-        break;
-    }
-}
 
 function pDThreeSetLayout() {
     // Get screen size
@@ -102,8 +86,7 @@ function pDThreeSetLayout() {
     mainSquareWidth = centralContainerSquareWidth
     mainSquareXYOffset = 0
     // Smaller Squares
-    patternTwoMSizePeripherySquareWidth = centralContainerSquareWidth / 3
-    patternTwoSSizePeripherySquareWidth = centralContainerSquareWidth / 6
+    
 
 
 
@@ -114,6 +97,7 @@ function pDThreeSetLayout() {
         leftOffset: (mainSquareXYOffset * 2),
         topOffset: mainSquareXYOffset,
         rotation: randomIntToFour(),
+        fadein: true,
     }
 
     // MainSquare: width, left, top, rotation, n
@@ -122,12 +106,41 @@ function pDThreeSetLayout() {
     // Set position and size
     mainSquarePositioning(mainSquare);
     document.querySelector(mainSquare.elementSelector).style.transform = `rotate(${mainSquare.rotation * 90}deg)`;
+    
     document.querySelector(mainSquare.elementSelector).insertAdjacentHTML("beforeend", mainSquare.paisleyVector)
 
+    console.log(document.getElementsByClassName(mainSquare.paisleyVectorClassNames).length)
+    //console.log(document.getElementsByClassName(mainSquare.paisleyVectorClassNames))
 
+    document.getElementsByClassName(`${mainSquare.paisleyVectorClassNames}`)
+    //console.log(document.getElementsByClassName(mainSquare.paisleyVectorClassNames)[0])
+
+    // Adjusting opacity here
+    document.getElementsByClassName(mainSquare.paisleyVectorClassNames)[0].style.opacity = 0.1;
+
+
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+      }
+      
+      function rgbToHex(r, g, b) {
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+      }
+      
+      //alert(rgbToHex(0, 51, 255)); // #0033ff
+
+    const paisleyElements = document.getElementsByClassName(mainSquare.paisleyVectorClassNames)
+    paisleyElements[0].style.fill = rgbToHex(Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255));
+    
+    for (let i = 0; i < paisleyElements.length; i++) {
+
+        paisleyElements[i].style.fill = rgbToHex(Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255));
+    }
     
     
     
+   
 }
 
 function pDThreeUpdateLayout() {
@@ -145,9 +158,17 @@ function pDThreeUpdateLayout() {
     centralContainerSquarePositioning(centralContainerSquare, centralContainerSquareWidth, centralContainerXOffset, centralContainerYOffset);
     
     // Main square sizing
-    mainSquareWidth = centralContainerSquareWidth / 1.5
-    mainSquareXYOffset = centralContainerSquareWidth / 6
+    mainSquareWidth = centralContainerSquareWidth
+    mainSquareXYOffset = 0
     // Smaller square sizing
+
+    // main square
+    mainSquare.width = mainSquareWidth
+    mainSquare.height = mainSquareWidth
+    mainSquare.leftOffset = (mainSquareXYOffset * 2)
+    mainSquare.topOffset = mainSquareXYOffset
+    // update position and size     
+    mainSquarePositioning(mainSquare);
     
 
 }
