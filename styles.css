@@ -1,5 +1,5 @@
 html, body {
-height: 100%;
+
 margin: 0px;
 
 overflow: hidden;
@@ -31,7 +31,7 @@ h1.h1--main {
     text-shadow: 0px 0px 10px rgba(200, 200, 200, 0.95);
 }
 
-h2.h1--sub {
+h3 {
     font-family: var(--font-family1);
     font-weight: 600;
     font-size: clamp(1.5rem, 0.7vw + 1.5rem, 4rem);
@@ -44,12 +44,13 @@ h2.h1--sub {
 
 .section-background {
     float: left;
+    display: flex;
     width: 100%;
 }
 
 .centralcolumn {
     max-width: 1580px;
-    width: 100%;
+    /** width: 60%; **/
     padding-top: 5px;
     padding-left: 30px;
     padding-right: 30px;
