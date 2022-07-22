@@ -2,48 +2,40 @@
 import { screenSize } from '/jsm/pD2ScreenSize.js'
 import { portraitLandscapeParams } from '/jsm/pD2PortraitLandscapeParams.js'
 
+import { Utils } from '/jsm/utils/utils.js'
+export { paisleyUtils }
+
 import { LSizePaisleyBlock } from '/jsm/pD2PaisleyBlock_LSize.js'
 import { mainSquarePositioning } from '/jsm/pD2PaisleyBlock_LSize.js'
 
-import { MSizePaisleyBlock } from '/jsm/pD2PaisleyBlock_MSize.js'
-import { topLeftPeripherySquarePositioning } from '/jsm/pD2PaisleyBlock_MSize.js'
-import { bottomLeftPeripherySquarePositioning } from '/jsm/pD2PaisleyBlock_MSize.js'
+import { Menu } from '/jsm/menu.js' 
 
-import { SSizePaisleyBlock } from '/jsm/pD2PaisleyBlock_SSize.js'
-import { topSidePeripherySquarePositioning } from '/jsm/pD2PaisleyBlock_SSize.js'
-import { bottomSidePeripherySquarePositioning } from '/jsm/pD2PaisleyBlock_SSize.js'
 
 export { pDThreeSetLayout }
 export { pDThreeUpdateLayout }
 export { body }
+export { paisleySettings }
 
 const body = document.querySelector("body");
 let centralContainerParams
 
-let sSizePaisleyBlockParams;
-let mSizePaisleyBlockParams;
+const paisleyUtils = new Utils
+
+let paisleySettings;
+
 let lSizePaisleyBlockParams;
 
 // Main Square
 let mainSquare;
 
-// M SIze Squares
-let topLeftPeripherySquare;
-let bottomLeftPeripherySquare;
 
-// S Size Squares
-let topSidePeripherySquare;
-let bottomSidePeripherySquare;
 
 let centralContainerSquareWidth, centralContainerXOffset, centralContainerYOffset;
-let topSidePeripherySquarePosition
-let bottomSidePeripherySquarePosition
+
 
 let mainSquareWidth;
 let mainSquareXYOffset;
 
-let patternTwoMSizePeripherySquareWidth;
-let patternTwoSSizePeripherySquareWidth;
 
 function centralContainerSquarePositioning(centralContainerSquare, centralContainerSquareWidth, centralContainerXOffset, centralContainerYOffset) {
     centralContainerSquare.style.width = centralContainerSquareWidth + "px";
@@ -59,6 +51,10 @@ function randomIntToFour() {
 
 
 function pDThreeSetLayout() {
+
+    /////////////////////////////////////////////////////
+    // layout based on screen size
+    /////////////////////////////////////////////////////
     // Get screen size
     let screenDimensions = screenSize()
     let screenWidth = screenDimensions[0]
@@ -89,15 +85,31 @@ function pDThreeSetLayout() {
     
 
 
+    /////////////////////////////////////////////////////
+    // localStorage Retrieval
+    /////////////////////////////////////////////////////
+    localStorage.setItem("paisleySettings-reset", "false")
+    console.log(localStorage.getItem("paisleySettings"))
+    console.log(localStorage.getItem("paisleySettings-reset"))
+    if (localStorage.getItem("paisleySettings") == null || localStorage.getItem("paisleySettings-reset") == "true") {
+        // load default paisley Settings
+        localStorage.setItem("paisleySettings", JSON.stringify({ coloring: "colors", fadeIn: "appearOnLoad", opacity: "static"}))
+    } 
+    // retrueve paisley Settings
+    paisleySettings = JSON.parse(localStorage.getItem("paisleySettings"))
 
-    
 
+    /////////////////////////////////////////////
+    // the paisley wallpaper
+    ////////////////////////////////////////////
     lSizePaisleyBlockParams = {
         width: mainSquareWidth,
         leftOffset: (mainSquareXYOffset * 2),
         topOffset: mainSquareXYOffset,
         rotation: randomIntToFour(),
-        fadein: true,
+        fadeIn: paisleySettings.fadeIn,
+        coloring: paisleySettings.coloring, // "colors" / "greys" / "colors"
+        
     }
 
     // MainSquare: width, left, top, rotation, n
@@ -106,41 +118,19 @@ function pDThreeSetLayout() {
     // Set position and size
     mainSquarePositioning(mainSquare);
     document.querySelector(mainSquare.elementSelector).style.transform = `rotate(${mainSquare.rotation * 90}deg)`;
-    
     document.querySelector(mainSquare.elementSelector).insertAdjacentHTML("beforeend", mainSquare.paisleyVector)
 
-    console.log(document.getElementsByClassName(mainSquare.paisleyVectorClassNames).length)
-    //console.log(document.getElementsByClassName(mainSquare.paisleyVectorClassNames))
-
-    document.getElementsByClassName(`${mainSquare.paisleyVectorClassNames}`)
-    //console.log(document.getElementsByClassName(mainSquare.paisleyVectorClassNames)[0])
-
-    // Adjusting opacity here
-    document.getElementsByClassName(mainSquare.paisleyVectorClassNames)[0].style.opacity = 0.1;
-
-
-    function componentToHex(c) {
-        var hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-      }
-      
-      function rgbToHex(r, g, b) {
-        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-      }
-      
-      //alert(rgbToHex(0, 51, 255)); // #0033ff
-
-    const paisleyElements = document.getElementsByClassName(mainSquare.paisleyVectorClassNames)
-    paisleyElements[0].style.fill = rgbToHex(Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255));
-    
-    for (let i = 0; i < paisleyElements.length; i++) {
-
-        paisleyElements[i].style.fill = rgbToHex(Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255));
+    /////////////////////////////////////////////
+    // the options menu 
+    ////////////////////////////////////////////
+    const menuParams = {
+        fadeIn: paisleySettings.fadeIn, // "fadeIn" / "randomElement" / "appearOnLoad"
+        coloring: paisleySettings.coloring, // "colors" / "greys" / "colors"
+        opacity: paisleySettings.opacity // "static" / "oscillating"
     }
+    const paisleyMenu = new Menu(menuParams)
     
-    
-    
-   
+
 }
 
 function pDThreeUpdateLayout() {
